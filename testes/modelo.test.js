@@ -23,3 +23,31 @@ test('Testando cadastro de três perguntas', () => {
   expect(perguntas[2].num_respostas).toBe(0);
   expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
 });
+
+test('Testando cadastro de três respostas com pergunta cadastrada', () => {
+  const id_pergunta = modelo.cadastrar_pergunta('Qual sentido da vida e tudo mais?');
+
+  const resposta1 = 'Sei não muito difícil :p';
+  const resposta2 = '42';
+  const resposta3 = '^-^ -> O_o -> =] -> =D -> =P';
+
+  modelo.cadastrar_resposta(id_pergunta, resposta1);
+  modelo.cadastrar_resposta(id_pergunta, resposta2);
+  modelo.cadastrar_resposta(id_pergunta, resposta3);
+
+  const respostas = modelo.get_respostas(id_pergunta);
+
+  expect(respostas.length).toBe(3);
+  expect(respostas[0].texto).toBe(resposta1);
+  expect(respostas[1].texto).toBe(resposta2);
+  expect(respostas[2].texto).toBe(resposta3);
+});
+
+test('Testado cadastro de uma pergunta e obetendo-a pelo seu id', () => {
+  const texto_pergunta = 'Got any grapes?';
+  const id_pergunta = modelo.cadastrar_pergunta(texto_pergunta);
+
+  const pergunta = modelo.get_pergunta(id_pergunta);
+
+  expect(pergunta.texto).toBe(texto_pergunta);
+});
